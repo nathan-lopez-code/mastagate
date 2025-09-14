@@ -11,7 +11,7 @@
     @if(!empty($keyword))
         <meta name="keywords" content="{{ $keyword }}"/>
     @endif
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="language" content="fr"/>
     <meta name="copyright" content=""/>
     <meta name="author" content="Guerth Manzala"/>

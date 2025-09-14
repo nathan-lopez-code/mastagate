@@ -54,4 +54,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::post('/articles/upload_trix_image', [ArticleController::class, 'uploadTrixImage'])->name('articles.upload_trix_image');
+
+
+
 require __DIR__.'/auth.php';

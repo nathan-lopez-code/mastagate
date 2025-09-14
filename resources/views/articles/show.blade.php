@@ -1,6 +1,6 @@
 <x-layouts.main title="{{ $article->title }} - MastaGate">
 
-    <section class="parallax bg-extra-dark-gray" data-parallax-background-ratio="0.5" style="background-image:url('{{ asset('images/articles/' . $article->image) }}');">
+    <section class="parallax bg-extra-dark-gray" data-parallax-background-ratio="0.5" style="background-image:url('{{ asset('images/articles/'. $article->image) }}');">
         <div class="opacity-extra-medium bg-extra-dark-gray"></div>
         <div class="container">
             <div class="row align-items-stretch justify-content-center pt-20 pb-20 pt-lg-20 pb-lg-20 pt-md-20 pb-md-20 pt-sm-20 pb-sm-20">
@@ -15,13 +15,16 @@
             </div>
         </div>
     </section>
+
     <section id="article-content" class="bg-white">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-8">
-                    @if ($article->image)
-                        <img src="{{ asset('images/articles/' . $article->image) }}" class="img-fluid rounded-lg mb-4" alt="{{ $article->title }}">
-                    @endif
+            <div class="row">
+                <div class="col-12 col-lg-8 border-right-light-gray pr-5 lg:pr-10">
+                    <div class="mb-5">
+                        @if ($article->image)
+                            <img src="{{ asset('images/articles/'. $article->image) }}" class="img-fluid rounded-lg" alt="{{ $article->title }}">
+                        @endif
+                    </div>
 
                     <div class="content-trix text-extra-dark-gray alt-font text-justify">
                         {!! $article->content !!}
@@ -33,9 +36,35 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="col-12 col-lg-4 d-none d-lg-block blog-sidebar-area pl-5 lg:pl-10">
+                    <aside class="blog-sidebar">
+                        <div class="widget">
+                            <h5 class="widget-title alt-font text-extra-dark-gray font-weight-600">Autres articles</h5>
+                            <div class="blog-widget-posts">
+                                @forelse ($otherArticles as $otherArticle)
+                                    <a href="{{ route('blogs.show', $otherArticle->id) }}">
+                                        <div class="blog-post-item border-radius-6px overflow-hidden shadow mb-4">
+                                            @if ($otherArticle->image)
+                                                <img src="{{ asset('images/articles/'. $otherArticle->image) }}" class="w-100 object-cover h-auto" alt="{{ $otherArticle->title }}">
+                                            @endif
+                                            <div class="card-body p-4 bg-light-gray">
+                                                <h6 class="alt-font font-weight-600 text-extra-dark-gray">{{ $otherArticle->title }}</h6>
+                                                <span class="d-block text-medium text-uppercase">{{ $otherArticle->created_at->format('d M Y') }}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @empty
+                                    <p class="alt-font text-medium">Aucun autre article disponible.</p>
+                                @endforelse
+                            </div>
+                        </div>
+                    </aside>
+                </div>
             </div>
         </div>
     </section>
+
     <style>
         /* Styles pour que Trix Editor s'affiche correctement */
         .content-trix figure {
@@ -63,6 +92,9 @@
             margin-left: 0;
             font-style: italic;
             color: #555;
+        }
+        .border-right-light-gray {
+            border-right: 1px solid #e0e0e0;
         }
     </style>
 

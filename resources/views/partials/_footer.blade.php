@@ -25,6 +25,7 @@
                         <li><a href="{{ route('home') }}">Accueil</a></li>
                         <li><a href="{{ route('about') }}">A propos</a></li>
                         <li><a href="{{ route('services') }}">Services </a></li>
+                        <li><a href="{{ route('blogs.index') }}">Actualié </a></li>
                         <li><a href="{{ route('contacts') }}">Contacts</a></li>
                     </ul>
                 </div>

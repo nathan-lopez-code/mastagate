@@ -33,15 +33,9 @@
                         <li class="nav-item">
                             <a href="{{ route('services') }}" class="nav-link">Services</a>
                         </li>
-                        {{-- <li class="nav-item">
-                             <a href="#" class="nav-link">Agriculture</a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="#" class="nav-link">Transport</a>
-                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('post.index') }}" class="nav-link">Blog</a>
-                        </li>--}}
+                            <a href="{{ route('blogs.index') }}" class="nav-link">Actualités</a>
+                        </li>
                         <li class="nav-item d-block d-md-none">
                             <a href="{{ route('contacts') }}" class="nav-link">Contacts</a>
                         </li>

@@ -44,8 +44,12 @@
                                         {{ $article->created_at->format('d M Y') }}
                                     </td>
                                     <td class="py-4 px-6 text-right">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-2">Modifier</a>
-                                        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline mx-2">Supprimer</a>
+                                        <a href="{{route('dashboard.articles.edit', $article)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-2">Modifier</a>
+                                        <form action="{{ route('dashboard.articles.destroy', $article) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger font-medium text-red-600 dark:text-red-500 hover:underline mx-2">Supprimer</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

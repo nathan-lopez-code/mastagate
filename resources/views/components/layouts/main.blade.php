@@ -53,7 +53,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('fa/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
-
     <livewire:styles/>
     <script src="{{ asset('js/toggleForm.js') }}" defer></script>
     <script src="//unpkg.com/alpinejs" defer></script>

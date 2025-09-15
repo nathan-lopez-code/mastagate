@@ -32,7 +32,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validation des données
+        // Validation des données
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -44,7 +44,7 @@ class ArticleController extends Controller
         $article->title = $request->title;
         $article->user_id = Auth::id();
 
-        // 3. Traitement de l'image de couverture
+        // Traitement de l'image de couverture
         if ($request->hasFile('image')) {
             $imageName = Str::uuid()->toString() . '.' . $request->image->extension();
             $request->image->move(public_path('images/articles/'), $imageName);
@@ -99,9 +99,60 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Article $article)
+
+    public function edit(Article $article){
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(Request $request, Article $article)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|max:10548',
+        ]);
+        $updatearticle = Article::find($article->id);
+
+        $updatearticle->title = $request->title;
+        $updatearticle->user_id = Auth::id();
+
+        // 3. Traitement de l'image de couverture
+        if ($request->hasFile('image')) {
+            $imageName = Str::uuid()->toString() . '.' . $request->image->extension();
+            $request->image->move(public_path('images/articles/'), $imageName);
+            $article->image = $imageName;
+        }
+
+        // Lier et corriger le contenu des images Trix
+        $content = $request->input('content');
+        $dom = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        // Ajoutez cette ligne pour prendre en charge l'UTF-8
+        $dom->loadHTML('<?xml encoding="UTF-8">' . $content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+        $images = $dom->getElementsByTagName('img');
+        foreach ($images as $img) {
+            $src = $img->getAttribute('src');
+            if (Str::contains($src, '/articles/upload_trix_image')) {
+                $media = Media::where('file_name', basename($src))->first();
+                if ($media) {
+                    $media->model_id = $article->id;
+                    $media->model_type = Article::class;
+                    $media->save();
+                    $img->setAttribute('src', $media->getUrl());
+                }
+            }
+        }
+
+        // On met à jour le contenu de l'article avec le HTML corrigé et propre
+        $article->content = $dom->saveHTML($dom->getElementsByTagName('body')->item(0));
+
+        // Sauvegarde de l'article
+        $article->save();
+
+        // Redirection
+        return redirect()->route('dashboard')->with('success', 'Article créé avec succès !');
+
     }
 
 
@@ -117,48 +168,38 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * methode pour televerser les images depuis le formulaire Trix
      */
-    public function uploadTrixImage(Request $request)
+    public function ckeditorUpload(Request $request)
     {
-        // Ajoutez ceci pour vérifier si la requête arrive bien ici
-        dd('Request received.');
 
-        // Assurez-vous que le champ 'file' existe
-        if (!$request->hasFile('file')) {
-            dd('No file found in request.');
-        }
-
-        // Testez si l'utilisateur est authentifié
-        if (!Auth::user()) {
-            dd('User not authenticated.');
-        }
-
-        try {
-            $request->validate([
-                'file' => 'required|image|max:5000',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Affichez les erreurs de validation
-            dd($e->errors());
-        }
-
-        $media = Auth::user()
-            ->addMediaFromRequest('file')
-            ->toMediaCollection('trix_images');
-
-        // Vérifiez si le média a été créé
-        if (!$media) {
-            dd('Media object not created.');
-        }
-
-        return response()->json([
-            'url' => $media->getUrl(),
-            'id' => $media->id,
+        $request->validate([
+            'upload' => 'required|image|max:10500',
         ]);
+
+        // On sauvegarde l'image avec Spatie Media Library
+        $media = Auth::user()
+            ->addMediaFromRequest('upload')
+            ->toMediaCollection('ckeditor_images');
+
+        // On renvoie la réponse JSON attendue par CKEditor
+        return response()->json([
+            'uploaded' => 1,
+            'fileName' => $media->file_name,
+            'url' => $media->getUrl(), // C'est ici que l'URL est générée par Spatie
+        ]);
+
     }
 
 
     public function destroy(Article $article)
     {
-        //
+
+        $article->clearMediaCollection('ckeditor_images');
+
+        // Supprime l'article
+        $title_article = $article->title;
+        $article->delete();
+
+        // Redirection après la suppression
+        return redirect()->route('dashboard')->with('success', 'Article '.$title_article.' supprimé avec succes!' );
     }
 }

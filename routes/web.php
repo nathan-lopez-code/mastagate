@@ -50,11 +50,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
         Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
         Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+        Route::post('articles/ckeditor_upload', [ArticleController::class, 'ckeditorUpload'])->name('articles.ckeditor_upload');
+
     });
 
 });
 
-Route::post('/articles/upload_trix_image', [ArticleController::class, 'uploadTrixImage'])->name('articles.upload_trix_image');
 
 
 

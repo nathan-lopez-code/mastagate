@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Article extends Model implements HasMedia
 
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, HasFactory;
 
     public function user(): belongsTo{
         return $this->belongsTo(User::class);

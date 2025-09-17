@@ -23,26 +23,44 @@
                 </div>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="row justify-content-center mb-4 text-center">
+                <div class="col-12 filter-buttons">
+                    <button class="btn btn-dark-gray btn-small filter-btn active" data-category="all">Toutes</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="actualites-tech">Actualités Tech</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="avis-tests">Avis & Tests</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="tutoriels-guides">Tutoriels & Guides</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="logiciels-applications">Logiciels & Applications</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="securite-cybersecurite">Sécurité & Cybersécurité</button>
+                    <button class="btn btn-dark-gray btn-small filter-btn" data-category="autres">Autres</button>
+                </div>
+            </div>
+
+            <div class="article-grid">
                 @forelse ($articles as $article)
-                    <div class="col wow animate__fadeIn">
-                        <div class="card h-100 feature-box text-left box-shadow-large box-shadow-double-large-hover bg-white padding-4-rem-all lg-padding-3-rem-all md-padding-4-half-rem-all">
+                    <div class="article-card" data-category="{{ Str::slug($article->categorie) }}">
+                        <div class="card h-100 feature-box text-left box-shadow-large box-shadow-double-large-hover bg-white padding-3-rem-all lg-padding-2-rem-all md-padding-3-rem-all">
                             @if ($article->image)
-                                <img src="{{ asset('images/articles/' . $article->image) }}" class="card-img-top mb-3 border-radius-6px" alt="{{ $article->title }}">
+                                <img src="{{ asset('images/articles/' . $article->image) }}" class="card-img-top mb-3 border-radius-6px" alt="{{ $article->title }}" style="height: 150px; object-fit: cover;">
                             @endif
                             <div class="card-body feature-box-content">
-                                <span class="d-block alt-font text-blue-night text-uppercase font-weight-500 letter-spacing-1px">{{ $article->created_at->format('d M Y') }}</span>
-                                <h6 class="alt-font font-weight-600 d-block text-extra-dark-gray">{{ $article->title }}</h6>
-                                {{-- Utilisation de Str::limit pour tronquer le contenu HTML --}}
-                                <p class="w-100 lg-w-95">{!! Str::words(strip_tags($article->content), 30, '...') !!}</p>
-                                <a href="{{ route('blogs.show', $article->id) }}" class="btn btn-medium btn-dark-gray margin-15px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
+                                <span class="d-block alt-font text-blue-night text-uppercase font-weight-500 letter-spacing-1px" style="font-size: 0.8rem;">{{ $article->created_at->format('d M Y') }} - {{ $article->category }}</span>
+                                <h6 class="alt-font font-weight-600 d-block text-extra-dark-gray" style="font-size: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">{{$article->title }}</h6>
+
+                                {{-- Nouvelle méthode pour afficher le contenu --}}
+                                @if ($article->content)
+                                    <p style="font-size: 0.9rem; color: black">{!! Str::words(strip_tags($article->content), 5, '...') !!}</p>
+                                @else
+                                    <p style="font-size: 0.9rem; color: black">Aucun contenu disponible pour cet article.</p>
+                                @endif
+
+                                <a href="{{ route('blogs.show', $article->id) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
                             </div>
                             <div class="feature-box-overlay bg-white"></div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-12 ">
-                        <p class="alt-font text-center text-extra-dark-gray">Aucun article n'a encore été publié.</p>
+                    <div class="col-12 text-center">
+                        <p class="alt-font text-extra-dark-gray">Aucun article n'a encore été publié dans cette catégorie.</p>
                     </div>
                 @endforelse
             </div>
@@ -54,4 +72,84 @@
         </div>
     </div>
 
+    <style>
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .article-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .article-card p {
+            flex-grow: 1; /* Permet au paragraphe de prendre tout l'espace disponible */
+        }
+
+        .article-card a.btn {
+            margin-top: auto; /* Pousse le bouton vers le bas */
+        }
+
+        /* Styles pour les boutons de filtre */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .filter-btn {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filter-btn:hover {
+            background-color: #555;
+        }
+        .filter-btn.active {
+            background-color: #007bff; /* Ou une autre couleur de votre choix */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const articles = document.querySelectorAll('.article-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const category = this.dataset.category;
+                    articles.forEach(article => {
+                        const articleCategory = article.dataset.category;
+                        if (category === 'all' || articleCategory === category) {
+                            article.style.display = 'block';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </x-layouts.main>

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\PassAdmin;
 
 class RegisteredUserController extends Controller
 {
@@ -29,11 +30,23 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'pass' => ['required','string', 'max:400'],
         ]);
+
+        $pass_admin = PassAdmin::latest()->first();
+        $passe_given = $request->input('pass');
+
+
+        if ($pass_admin->pass != $passe_given) {
+            return redirect(route('register', absolute: false))
+                ->with('error', 'Pass Invalide , veillez contacter l\'administrateur');
+        }
+
 
         $user = User::create([
             'name' => $request->name,

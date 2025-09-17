@@ -41,16 +41,32 @@
                             <hr class="border-gray-300 dark:border-gray-600">
                         </div>
 
+                        <div class="form-group mb-6">
+                            <label for="categorie" class="form-label">Catégorie</label>
+                            <select name="categorie" id="categorie" class="form-select">
+                                <option value="" disabled selected>Sélectionner une catégorie</option>
+                                <option value="Actualités Tech">Actualités Tech</option>
+                                <option value="Avis & Tests">Avis & Tests</option>
+                                <option value="Tutoriels & Guides">Tutoriels & Guides</option>
+                                <option value="Logiciels & Applications">Logiciels & Applications</option>
+                                <option value="Sécurité & Cybersécurité">Sécurité & Cybersécurité</option>
+                                <option value="Autres">Autres</option>
+                            </select>
+                            @error('categorie')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-6">
-                            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contenu de l'article</label>
-                            <textarea name="content" id="editor" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 min-h-[300px]">{{ old('content') }}</textarea>
+                            <label for="content" class="form-label">Contenu de l'article</label>
+                            <textarea name="content" id="editor" class="form-control min-h-[300px]">{{ old('content') }}</textarea>
                             @error('content')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="flex justify-end mt-8">
-                            <button type="submit" class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            <button type="submit" class="btn btn-primary">
                                 {{ __('Publier l\'article') }}
                             </button>
                         </div>
@@ -61,6 +77,56 @@
     </div>
 
     <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+        .form-select, .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #4a5568;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+            outline: none;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        /* Styles spécifiques à CKEditor */
         .ck-editor__editable_inline {
             min-height: 500px !important;
             color: #0b0b0b !important;

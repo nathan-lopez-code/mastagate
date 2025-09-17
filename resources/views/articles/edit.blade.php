@@ -11,49 +11,55 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('dashboard.articles.update', $article) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT') <div class="mb-6 text-center">
-                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image de l'article</label>
-                            <div class="flex justify-center items-center h-48 w-full bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 mb-3"
-                                 id="image-preview-container">
+                        @method('PUT')
+                        <div class="form-group mb-6">
+                            <label for="image" class="form-label">Image de l'article</label>
+                            <div class="image-preview-container mb-3" id="image-preview-container">
                                 @if($article->image)
-                                    <img style="max-width: 500px" id="image-preview" src="{{ asset('images/articles/'. $article->image) }}" alt="Prévisualisation de l'image" class="h-full w-full object-cover">
+                                    <img id="image-preview" src="{{ asset('images/articles/'. $article->image) }}" alt="Prévisualisation de l'image" class="image-preview">
                                 @else
-                                    <img style="max-width: 500px" id="image-preview" src="#" alt="Prévisualisation de l'image" class="hidden h-full w-full object-cover">
-                                    <span id="placeholder-text" class="text-gray-400 dark:text-gray-500">Aucune image sélectionnée</span>
+                                    <img id="image-preview" src="#" alt="Prévisualisation de l'image" class="image-preview hidden">
+                                    <span id="placeholder-text" class="placeholder-text">Aucune image sélectionnée</span>
                                 @endif
                             </div>
-                            <input type="file" class="block w-full text-sm text-gray-900 dark:text-gray-100
-                                file:mr-4 file:py-2 file:px-4
-                                file:rounded-md file:border-0
-                                file:text-sm file:font-semibold
-                                file:bg-indigo-50 file:text-indigo-700
-                                hover:file:bg-indigo-100"
-                                   id="image" name="image" accept="image/*">
+                            <input type="file" class="file-input" id="image" name="image" accept="image/*">
                             @error('image')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-6">
+                        <div class="form-group mb-6">
                             <label for="title" class="sr-only">Titre de l'article</label>
-                            <input value="{{$article->title}}" type="text" class="block w-full text-4xl font-extrabold text-gray-900 dark:text-gray-100 bg-transparent border-0 focus:ring-0 px-0 mb-2"
-                                   id="title" name="title" placeholder="Votre titre d'article ici..." required>
+                            <input value="{{$article->title}}" type="text" class="form-control-lg" id="title" name="title" placeholder="Votre titre d'article ici..." required>
                             @error('title')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
-                            <hr class="border-gray-300 dark:border-gray-600">
+                            <hr class="form-separator">
                         </div>
 
-                        <div class="mb-6">
-                            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Contenu de l'article</label>
-                            <textarea name="content" id="editor" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 min-h-[300px]">{{ $article->content }}</textarea>
+                        <div class="form-group mb-6">
+                            <label for="category" class="form-label">Catégorie</label>
+                            <select name="category" id="category" class="form-select">
+                                <option value="" disabled selected>Sélectionner une catégorie</option>
+                                @foreach(['Actualités Tech', 'Avis & Tests', 'Tutoriels & Guides', 'Logiciels & Applications', 'Sécurité & Cybersécurité', 'Autres'] as $category)
+                                    <option value="{{ $category }}" @if($article->category == $category) selected @endif>{{ $category }}</option>
+                                @endforeach
+                            </select>
+                            @error('category')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-6">
+                            <label for="content" class="form-label">Contenu de l'article</label>
+                            <textarea name="content" id="editor" class="form-control min-h-[300px]">{{ $article->content }}</textarea>
                             @error('content')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="flex justify-end mt-8">
-                            <button type="submit" class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:border-indigo-900 focus:ring ring-indigo-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            <button type="submit" class="btn btn-primary">
                                 {{ __('Mettre à jour l\'article') }}
                             </button>
                         </div>
@@ -64,10 +70,41 @@
     </div>
 
     <style>
-        .ck-editor__editable_inline {
-            min-height: 500px !important;
-            color: #0b0b0b !important;
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.875rem; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem; }
+        .form-control, .form-select {
+            display: block; width: 100%; padding: 0.5rem 0.75rem; font-size: 1rem; line-height: 1.5;
+            color: #4a5568; background-color: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
+        .form-control:focus, .form-select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); outline: none; }
+        .form-control-lg { font-size: 2.25rem; font-weight: 800; color: #1a202c; background: transparent; border: none; padding: 0; margin-bottom: 0.5rem; }
+        .form-control-lg:focus { box-shadow: none; }
+        .form-separator { border-top: 1px solid #e2e8f0; margin-top: 0.5rem; }
+        .btn { display: inline-flex; align-items: center; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.15s ease-in-out; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background-color: #4f46e5; color: #fff; }
+        .btn-primary:hover { background-color: #4338ca; }
+
+        /* Styles de prévisualisation d'image */
+        .image-preview-container {
+            display: flex; justify-content: center; align-items: center; height: 12rem; width: 100%;
+            background-color: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 0.5rem;
+            overflow: hidden; margin-bottom: 0.75rem;
+        }
+        .image-preview { max-width: 500px; height: 100%; width: 100%; object-fit: cover; }
+        .placeholder-text { color: #a0aec0; }
+        .hidden { display: none; }
+        .file-input {
+            display: block; width: 100%; font-size: 0.875rem;
+            color: #1a202c;
+            /* Styles des pseudo-éléments pour la customisation */
+            -webkit-appearance: none; appearance: none;
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+        }
+        /* Style CKEditor */
+        .ck-editor__editable_inline { min-height: 500px !important; color: #0b0b0b !important; }
     </style>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
@@ -79,36 +116,26 @@
                 const preview = document.getElementById('image-preview');
                 const placeholder = document.getElementById('placeholder-text');
                 const reader = new FileReader();
-
                 reader.onload = function(e) {
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    if (placeholder) {
-                        placeholder.classList.add('hidden');
-                    }
+                    if (placeholder) { placeholder.classList.add('hidden'); }
                 }
                 reader.readAsDataURL(file);
             } else {
                 const preview = document.getElementById('image-preview');
                 const placeholder = document.getElementById('placeholder-text');
-
                 preview.classList.add('hidden');
                 preview.src = '#';
-                if (placeholder) {
-                    placeholder.classList.remove('hidden');
-                }
+                if (placeholder) { placeholder.classList.remove('hidden'); }
             }
         });
-
-        // Initialize preview on page load
         document.addEventListener('DOMContentLoaded', function() {
             const imagePreview = document.getElementById('image-preview');
             const placeholder = document.getElementById('placeholder-text');
             if (imagePreview && imagePreview.getAttribute('src') && imagePreview.getAttribute('src') !== '#') {
                 imagePreview.classList.remove('hidden');
-                if (placeholder) {
-                    placeholder.classList.add('hidden');
-                }
+                if (placeholder) { placeholder.classList.add('hidden'); }
             }
         });
     </script>

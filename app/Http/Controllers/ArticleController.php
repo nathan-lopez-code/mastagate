@@ -37,11 +37,13 @@ class ArticleController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|max:10548',
+            'categorie' => 'required|string',
         ]);
 
         // 2. Création de l'article sans les images Trix pour l'instant
         $article = new Article;
         $article->title = $request->title;
+        $article->categorie = $request->input("categorie");
         $article->user_id = Auth::id();
 
         // Traitement de l'image de couverture
@@ -114,6 +116,7 @@ class ArticleController extends Controller
         $updatearticle = Article::find($article->id);
 
         $updatearticle->title = $request->title;
+        $article->categorie = $request->input("categorie");
         $updatearticle->user_id = Auth::id();
 
         // 3. Traitement de l'image de couverture

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('pass_admins', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('categorie');
-            $table->text('content');
-            $table->string('image')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('pass');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('pass_admins');
     }
 };

@@ -1,4 +1,12 @@
 <x-guest-layout>
+
+
+    @if (session('error'))
+        <div style="background: #fae4e4; color: red; border: red" class="bg-red-500 border border-red-600 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ session('error') }}</span>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -37,6 +45,13 @@
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Pass token --->
+        <div class="mt-4">
+            <x-input-label for="pass" :value="__('Pass de l\'admin')" />
+            <x-text-input id="pass" class="block mt-1 w-full" type="text" name="pass"  />
+            <x-input-error :messages="$errors->get('pass')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

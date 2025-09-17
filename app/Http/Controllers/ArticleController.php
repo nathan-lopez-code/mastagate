@@ -161,7 +161,7 @@ class ArticleController extends Controller
 
     public function userArticles()
     {
-        $articles = auth()->user()->articles;
+        $articles = Article::all();
 
         return view('dashboard', compact('articles'));
     }

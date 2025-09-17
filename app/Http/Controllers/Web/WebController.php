@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Article; 
 
 class WebController extends Controller
 {
     public function home(){
-        return view('home.index');
+        $articles = Article::latest()->take(3)->get();
+
+        return view('home.index', compact('articles'));
     }
 
     public function about(){

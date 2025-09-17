@@ -1,6 +1,6 @@
 <x-layouts.main title="Notre blog : MastaGate">
 
-    <section class="parallax bg-extra-dark-gray" data-parallax-background-ratio="0.5" style="background-image:url('images/sliders/bg-actualite.webp');">
+    <section class="parallax bg-extra-dark-gray" data-parallax-background-ratio="0.5" style="background-image:url('images/blgo-banner-img-01.jpg');">
         <div class="opacity-extra-medium bg-extra-dark-gray"></div>
         <div class="container">
             <div class="row align-items-stretch justify-content-center small-screen">

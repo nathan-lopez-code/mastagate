@@ -324,7 +324,58 @@
     </section>
     <!-- end section -->
 
+    <!-- section article -->
+    <section class="wow animate__fadeIn blog-preview-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-4 col-lg-5 col-sm-6 text-center margin-4-rem-bottom">
+                    <span class="alt-font font-weight-500 text-medium text-blue-night letter-spacing-1-half text-uppercase d-inline-block margin-20px-bottom sm-margin-10px-bottom">
+                        Nos dernières publications
+                    </span>
+                    <h5 class="alt-font font-weight-300 text-extra-dark-gray letter-spacing-minus-1px mx-auto mx-sm-0 xs-w-80">
+                        Restez informé avec les articles les plus récents
+                    </h5>
+                </div>
+            </div>
 
+            <div class="row blog-grid">
+                @forelse($articles as $article)
+                    <div class="col-12 col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 feature-box text-left box-shadow-large box-shadow-double-large-hover bg-white padding-3-rem-all lg-padding-2-rem-all md-padding-3-rem-all">
+                            @if($article->image)
+                                <img src="{{ asset('images/articles/' . $article->image) }}" class="card-img-top mb-3 border-radius-6px" alt="{{ $article->title }}" style="height: 150px; object-fit: cover;">
+                            @endif
+                            <div class="card-body feature-box-content">
+                                <span class="d-block alt-font text-blue-night text-uppercase font-weight-500 letter-spacing-1px" style="font-size: 0.8rem;">
+                                    {{ $article->created_at->format('d M Y') }}
+                                    @if($article->category) - {{ $article->category }} @endif
+                                </span>
+                                <h6 class="alt-font font-weight-600 d-block text-extra-dark-gray" style="font-size: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                                    {{ Str::limit($article->title, 100, '...') }}
+                                </h6>
+                                @if ($article->content)
+                                    <p style="font-size: 0.9rem; color: black">{!! Str::words(strip_tags($article->content), 20, '...') !!}</p>
+                                @endif
+                                <a href="{{ route('blogs.show', $article->id) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p class="alt-font text-extra-dark-gray">Aucun article n'a encore été publié.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div class="row justify-content-center mt-5">
+                <div class="col-12 text-center">
+                    <a href="{{ route('blogs.index') }}" class="btn btn-dark-gray btn-small btn-round-edge">
+                        Voir tous les articles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- start section -->

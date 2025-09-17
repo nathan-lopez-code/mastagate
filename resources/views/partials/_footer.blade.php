@@ -35,7 +35,12 @@
                     <span class="alt-font font-weight-500 d-block text-white margin-20px-bottom xs-margin-10px-bottom">Contact</span>
                     <ul>
                         <li><a href="#"><i class="fa fa-phone"></i> +243 842 399 860</a></li>
-                        <li><a href="#"><i class="fa fa-map-marked"></i> N°16, Av.Refudji, Kintambo-Magasin, Immeuble Sacramento</a></li>
+                        <li><a href="#"><i class="fa fa-map-marked"></i>
+                            <strong>Avenue Nzadi, n°14C</strong><br>
+                            Quartier Ngaba — Rond-point Ngaba<br>
+                            Kinshasa, RDCongo<br>
+                            Référence : Derrière la BCDC
+                        </li>
                         <li><a href="#"><i class="fa fa-envelope"></i> contact@mastagate.com</a></li>
                     </ul>
                 </div>

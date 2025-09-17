@@ -24,7 +24,12 @@
                             </div>
                             <div class="feature-box-content last-paragraph-no-margin">
                                 <span class="text-extra-dark-gray text-extra-medium d-block alt-font font-weight-500">Adresse</span>
-                                <a href="#" class="alt-font text-decoration-none">N°16, Av.Refudji, Kintambo-Magasin, Immeuble Sacramento</a>
+                                <a href="#" class="alt-font text-decoration-none">
+                                    <p class="contact-compact">
+                                    Avenue Nzadi 14C — Quartier Ngaba, Rond-point Ngaba, Kinshasa, RDC
+                                    <span class="ref">• Réf : Derrière la BCDC</span>
+                                    </p>
+                                </a>
                             </div>
                         </div>
                         <div class="feature-box-overlay"></div>

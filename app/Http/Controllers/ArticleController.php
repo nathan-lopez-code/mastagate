@@ -116,7 +116,7 @@ class ArticleController extends Controller
         $updatearticle = Article::find($article->id);
 
         $updatearticle->title = $request->title;
-        $article->categorie = $request->input("categorie");
+        $article->categorie = $request->input("category");
         $updatearticle->user_id = Auth::id();
 
         // 3. Traitement de l'image de couverture

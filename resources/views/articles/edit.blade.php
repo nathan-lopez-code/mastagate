@@ -90,6 +90,7 @@
             display: flex; justify-content: center; align-items: center; height: 12rem; width: 100%;
             background-color: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 0.5rem;
             overflow: hidden; margin-bottom: 0.75rem;
+            min-height: 300px;
         }
         .image-preview { max-width: 500px; height: 100%; width: 100%; object-fit: cover; }
         .placeholder-text { color: #a0aec0; }

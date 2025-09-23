@@ -39,7 +39,7 @@
                             <strong>Avenue Nzadi, n°14C</strong><br>
                             Quartier Ngaba — Rond-point Ngaba<br>
                             Kinshasa, RDCongo<br>
-                            Référence : Derrière la BCDC
+                            Référence : Derrière la BCDC</a>
                         </li>
                         <li><a href="#"><i class="fa fa-envelope"></i> contact@mastagate.com</a></li>
                     </ul>

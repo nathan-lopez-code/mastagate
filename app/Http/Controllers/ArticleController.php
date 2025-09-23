@@ -175,15 +175,17 @@ class ArticleController extends Controller
     {
 
         $request->validate([
-            'upload' => 'required|image|max:10500',
+            'file' => 'required|image|max:10500',
         ]);
 
         // On sauvegarde l'image avec Spatie Media Library
         $media = Auth::user()
-            ->addMediaFromRequest('upload')
+            ->addMediaFromRequest('file')
             ->toMediaCollection('ckeditor_images');
 
         // On renvoie la réponse JSON attendue par CKEditor
+
+
         return response()->json([
             'uploaded' => 1,
             'fileName' => $media->file_name,

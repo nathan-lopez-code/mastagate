@@ -5,8 +5,9 @@
         </h2>
     </x-slot>
 
+
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('dashboard.articles.store') }}" method="POST" enctype="multipart/form-data">
@@ -59,7 +60,7 @@
 
                         <div class="mb-6">
                             <label for="content" class="form-label">Contenu de l'article</label>
-                            <textarea name="content" id="editor" class="form-control min-h-[300px]">{{ old('content') }}</textarea>
+                            <textarea name="content" id="summernote" class="form-control min-h-[300px]">{{ old('content') }}</textarea>
                             @error('content')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
@@ -79,10 +80,11 @@
     <style>
         .form-group {
             margin-bottom: 1.5rem;
+            font-size: 14px!important;
         }
         .form-label {
             display: block;
-            font-size: 0.875rem;
+            font-size: 14px;
             font-weight: 500;
             color: #4a5568;
             margin-bottom: 0.5rem;
@@ -91,9 +93,9 @@
             display: block;
             width: 100%;
             padding: 0.5rem 0.75rem;
-            font-size: 1rem;
+            font-size: 14px;
             line-height: 1.5;
-            color: #4a5568;
+            color: #000000;
             background-color: #fff;
             background-clip: padding-box;
             border: 1px solid #e2e8f0;
@@ -126,47 +128,73 @@
             background-color: #4338ca;
         }
 
-        /* Styles spécifiques à CKEditor */
-        .ck-editor__editable_inline {
-            min-height: 500px !important;
-            color: #0b0b0b !important;
+        #image{
+            font-size: 14px;
+        }
+
+        #title {
+            font-size: 20px!important;
+        }
+
+        .note-editable{
+            font-size: 14px;
+            color: black!important;
         }
     </style>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
-
     <script>
-        document.getElementById('image').addEventListener('change', function(event) {
-            const [file] = event.target.files;
-            if (file) {
-                const preview = document.getElementById('image-preview');
-                const placeholder = document.getElementById('placeholder-text');
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script de prévisualisation de l'image de couverture (inchangé)
+            document.getElementById('image').addEventListener('change', function(event) {
+                const [file] = event.target.files;
+                if (file) {
+                    const preview = document.getElementById('image-preview');
+                    const placeholder = document.getElementById('placeholder-text');
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    document.getElementById('image-preview').classList.add('hidden');
+                    document.getElementById('placeholder-text').classList.remove('hidden');
+                    document.getElementById('image-preview').src = '#';
                 }
-                reader.readAsDataURL(file);
-            } else {
-                document.getElementById('image-preview').classList.add('hidden');
-                document.getElementById('placeholder-text').classList.remove('hidden');
-                document.getElementById('image-preview').src = '#';
-            }
+            });
+
+            // Initialisation de Summernote
+            $('#summernote').summernote({
+                placeholder: 'Commencez à écrire votre article ici...',
+                tabsize: 2,
+                height: 300,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        var formData = new FormData();
+                        formData.append('file', files[0]);
+
+                        $.ajax({
+                            // Utilisez la route nommée que nous avons définie
+                            url: '{{ route('dashboard.articles.ckeditor_upload') }}',
+                            method: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                $('#summernote').summernote('insertImage', response.url);
+                            },
+                            error: function(error) {
+                                console.log(error);
+                                alert('Erreur lors du téléversement de l\'image.');
+                            }
+                        });
+                    }
+                }
+            });
         });
     </script>
-
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
-                ckfinder: {
-                    uploadUrl: '{{ route('dashboard.articles.ckeditor_upload') }}?_token={{ csrf_token() }}'
-                }
-            })
-            .catch( error => {
-                console.error( error );
-            });
-    </script>
-
 </x-app-layout>

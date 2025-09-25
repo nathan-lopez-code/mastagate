@@ -285,6 +285,8 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
 </head>
 <body data-mobile-nav-trigger-alignment="right" data-mobile-nav-style="full-screen-menu"
       data-mobile-nav-bg-color="#333a3a">
@@ -353,6 +355,7 @@
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{ asset('js/alert.js') }}"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 </html>
 

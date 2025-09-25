@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Modifier un article') }}
+            {{ __('Créer un nouveau Pack de Services') }}
         </h2>
     </x-slot>
 
@@ -9,19 +9,15 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ route('dashboard.articles.update', $article) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard.packs.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
 
                         <div class="mb-6 text-center">
-                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image de l'article</label>
+                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image du Pack</label>
                             <div class="flex justify-center items-center h-48 w-full bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden border-2 border-dashed border-gray-300 dark:border-gray-600 mb-3"
                                  id="image-preview-container">
-                                <img style="max-width: 500px" id="image-preview" src="{{ asset('images/articles/'. $article->image)  }}" alt="Prévisualisation de l'image"
-                                     class="{{ $article->image ? '' : 'hidden' }} h-full w-full object-cover">
-                                <span id="placeholder-text" class="{{ $article->image ? 'hidden' : '' }} text-gray-400 dark:text-gray-500">
-                                    Aucune image sélectionnée
-                                </span>
+                                <img style="max-width: 500px" id="image-preview" src="#" alt="Prévisualisation de l'image" class="hidden h-full w-full object-cover">
+                                <span id="placeholder-text" class="text-gray-400 dark:text-gray-500">Aucune image sélectionnée</span>
                             </div>
                             <input type="file" class="block w-full text-sm text-gray-900 dark:text-gray-100
                                 file:mr-4 file:py-2 file:px-4
@@ -36,42 +32,42 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="title" class="sr-only">Titre de l'article</label>
-                            <input type="text" value="{{ $article->title }}" class="block w-full text-4xl font-extrabold text-gray-900 dark:text-gray-100 bg-transparent border-0 focus:ring-0 px-0 mb-2"
-                                   id="title" name="title" placeholder="Votre titre d'article ici..." required>
-                            @error('title')
-                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
-                            <hr class="border-gray-300 dark:border-gray-600">
-                        </div>
-
-                        <div class="form-group mb-6">
-                            <label for="categorie" class="form-label">Catégorie</label>
-                            <select name="categorie" id="categorie" class="form-select">
-                                <option value="" disabled>Sélectionner une catégorie</option>
-                                <option value="Actualités Tech" {{ old('categorie', $article->categorie) == 'Actualités Tech' ? 'selected' : '' }}>Actualités Tech</option>
-                                <option value="Avis & Tests" {{ old('categorie', $article->categorie) == 'Avis & Tests' ? 'selected' : '' }}>Avis & Tests</option>
-                                <option value="Tutoriels & Guides" {{ old('categorie', $article->categorie) == 'Tutoriels & Guides' ? 'selected' : '' }}>Tutoriels & Guides</option>
-                                <option value="Logiciels & Applications" {{ old('categorie', $article->categorie) == 'Logiciels & Applications' ? 'selected' : '' }}>Logiciels & Applications</option>
-                                <option value="Sécurité & Cybersécurité" {{ old('categorie', $article->categorie) == 'Sécurité & Cybersécurité' ? 'selected' : '' }}>Sécurité & Cybersécurité</option>
-                                <option value="Autres" {{ old('categorie', $article->categorie) == 'Autres' ? 'selected' : '' }}>Autres</option>
-                            </select>
-                            @error('categorie')
+                            <label for="name" class="form-label">Nom du Pack</label>
+                            <input type="text" class="form-control"
+                                   id="name" name="name" placeholder="Ex: Pack Premium Web" required value="{{ old('name') }}">
+                            @error('name')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-6">
-                            <label for="content" class="form-label">Contenu de l'article</label>
-                            <textarea name="content" id="summernote" class="form-control min-h-[500px]">{{ old('content', $article->content) }}</textarea>
-                            @error('content')
+                        <div class="mb-6 form-group">
+                            <label for="price" class="form-label">Prix (€ ou autre devise)</label>
+                            <input type="number" step="0.01" min="0" class="form-control"
+                                   id="price" name="price" placeholder="Ex: 99.99" required value="{{ old('price') }}">
+                            @error('price')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6 form-group">
+                            <label for="description" class="form-label">Description du Pack</label>
+                            <textarea name="description" id="description" class="form-control min-h-[150px]" placeholder="Décrivez en quelques lignes ce que comprend ce pack.">{{ old('description') }}</textarea>
+                            @error('description')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6 form-group">
+                            <label for="advantages" class="form-label">Avantages / Caractéristiques (Liste)</label>
+                            <textarea name="advantages" id="advantages" class="form-control min-h-[150px]" placeholder="Entrez un avantage par ligne ou séparez-les par des virgules. Ex:&#10;- Support 24/7&#10;- Mise à jour gratuite pendant 1 an">{{ old('advantages') }}</textarea>
+                            @error('advantages')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="flex justify-end mt-8">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('Mettre à jour l\'article') }}
+                                {{ __('Enregistrer le Pack') }}
                             </button>
                         </div>
                     </form>
@@ -81,6 +77,7 @@
     </div>
 
     <style>
+        /* Les styles existants du modèle (form-group, form-label, etc.) sont conservés ici... */
         .form-group {
             margin-bottom: 1.5rem;
             font-size: 14px!important;
@@ -135,19 +132,14 @@
             font-size: 14px;
         }
 
-        #title {
+        #name {
             font-size: 20px!important;
-        }
-
-        .note-editable{
-            font-size: 14px;
-            color: black!important;
         }
     </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Script de prévisualisation de l'image de couverture (inchangé)
+            // Script de prévisualisation de l'image (identique à votre modèle)
             document.getElementById('image').addEventListener('change', function(event) {
                 const [file] = event.target.files;
                 if (file) {
@@ -166,38 +158,7 @@
                     document.getElementById('image-preview').src = '#';
                 }
             });
-
-            // Initialisation de Summernote
-            $('#summernote').summernote({
-                placeholder: 'Commencez à écrire votre article ici...',
-                tabsize: 2,
-                height: 300,
-                callbacks: {
-                    onImageUpload: function(files) {
-                        var formData = new FormData();
-                        formData.append('file', files[0]);
-
-                        $.ajax({
-                            // Utilisez la route nommée que nous avons définie
-                            url: '{{ route('dashboard.articles.ckeditor_upload') }}',
-                            method: 'POST',
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                $('#summernote').summernote('insertImage', response.url);
-                            },
-                            error: function(error) {
-                                console.log(error);
-                                alert('Erreur lors du téléversement de l\'image.');
-                            }
-                        });
-                    }
-                }
-            });
+            // Suppression de l'initialisation Summernote car on utilise des champs simples
         });
     </script>
 </x-app-layout>

@@ -46,14 +46,7 @@
                                 <span class="d-block alt-font text-blue-night text-uppercase font-weight-500 letter-spacing-1px" style="font-size: 0.8rem;">{{ $article->created_at->format('d M Y') }} - {{ $article->category }}</span>
                                 <h6 class="alt-font font-weight-600 d-block text-extra-dark-gray" style="font-size: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">{{$article->title }}</h6>
 
-                                {{-- Nouvelle méthode pour afficher le contenu --}}
-                                @if ($article->content)
-                                    <p style="font-size: 0.9rem; color: black">{!! Str::words(strip_tags($article->content), 5, '...') !!}</p>
-                                @else
-                                    <p style="font-size: 0.9rem; color: black">Aucun contenu disponible pour cet article.</p>
-                                @endif
-
-                                <a href="{{ route('blogs.show', $article->id) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
+                                <a href="{{ route('blogs.show', ['slug'=>$article->slug]) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
                             </div>
                             <div class="feature-box-overlay bg-white"></div>
                         </div>

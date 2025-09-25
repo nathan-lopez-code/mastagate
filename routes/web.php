@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +20,8 @@ Route::controller(WebController::class)->group(function () {
 });
 
 // Route de ressource pour les articles
-
-Route::resource('articles', ArticleController::class)->only([
-    'index', 'show'
-])->names([
-    'index' => 'blogs.index',
-    'show' => 'blogs.show'
-]);
+Route::get('blogs/', [ArticleController::class, 'index'])->name('blogs.index');
+Route::get('blogs/{slug}', [ArticleController::class, 'show'])->name('blogs.show');
 
 // ----------------------------------------------------
 // Routes Sécurisées - only authentificated user
@@ -54,9 +50,12 @@ Route::middleware('auth')->group(function () {
 
     });
 
+    // Route de gestion de pack
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/pack/create', [PackController::class, 'create'])->name('packs.create');
+        Route::post('/pack/', [PackController::class, 'store'])->name('packs.store');
+    });
 });
-
-
 
 
 require __DIR__.'/auth.php';

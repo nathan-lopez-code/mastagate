@@ -356,7 +356,7 @@
                                 @if ($article->content)
                                     <p style="font-size: 0.9rem; color: black">{!! Str::words(strip_tags($article->content), 20, '...') !!}</p>
                                 @endif
-                                <a href="{{ route('blogs.show', $article->id) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
+                                <a href="{{ route('blogs.show', ['slug'=>$article->slug]) }}" class="btn btn-small btn-dark-gray margin-10px-top btn-round-edge section-link blue-night">Lire l'article<i class="feather icon-feather-arrow-right icon-very-small right-icon"></i></a>
                             </div>
                         </div>
                     </div>
@@ -457,100 +457,165 @@
 
 
     <!-- start section -->
-    <section class="bg-gradient-light-gray-white">
-        <div class="container">
+    <section class="bg-gradient-light-gray-white py-20 lg:py-28">
+        <div class="container mx-auto px-4">
             <div class="row justify-content-center">
-                <div class="col-12 col-xl-5 col-sm-6 text-center margin-5-half-rem-bottom md-margin-4-rem-bottom wow animate__fadeIn">
-                <span class="alt-font font-weight-500 text-medium text-blue-night letter-spacing-1-half
-                 text-uppercase d-inline-block margin-20px-bottom sm-margin-10px-bottom">Communication digitale, structure des coûts</span>
-                    <h5 class="alt-font font-weight-300 text-extra-dark-gray letter-spacing-minus-1px d-inline-block w-90 md-w-100 xs-w-80">Notre fixation des prix est adaptée à vos capacités </h5>
+                <div class="col-12 col-xl-7 col-lg-8 text-center margin-5-half-rem-bottom md-margin-4-rem-bottom wow animate__fadeIn">
+                <span class="alt-font font-weight-500 text-medium text-blue-night letter-spacing-1-half text-uppercase d-inline-block margin-20px-bottom sm-margin-10px-bottom">
+                    Communication Digitale & Stratégie de Croissance
+                </span>
+                    <h5 class="alt-font font-weight-700 text-extra-dark-gray letter-spacing-minus-1px d-inline-block w-90 md-w-100 xs-w-80 text-4xl leading-tight">
+                        Choisissez le pack qui maximise l'impact de votre présence en ligne
+                    </h5>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-lg-3 justify-content-center">
-                <div class="col col-md-8 d-flex text-center md-margin-30px-bottom wow animate__fadeIn" data-wow-delay="0.4s">
-                    <!-- start pricing table -->
-                    <div class="pricing-table d-flex flex-column justify-content-center w-100 bg-white border-radius-5px padding-60px-lr padding-70px-tb
-                lg-padding-50px-lr xs-padding-50px-tb xs-padding-40px-lr">
-                        <!-- start pricing header -->
-                        <div class="pricing-header">
-                            <div class="alt-font text-extra-dark-gray text-large font-weight-500 margin-3-rem-bottom text-uppercase">Pack Com Basic </div>
-                            <h3 class="alt-font font-weight-500 text-purple letter-spacing-minus-2px no-margin-bottom">300$</h3>
-                            <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+
+            <div class="swiper-container relative">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-white border border-gray-200 border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="alt-font text-extra-dark-gray text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack Com Basic</div>
+                                    <h3 class="alt-font font-weight-500 text-purple text-5xl letter-spacing-minus-2px no-margin-bottom">300$</h3>
+                                    <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-gray-700">
+                                        <li>Design de 5 Affiches/mois</li>
+                                        <li>Gestion de 2 Réseaux sociaux</li>
+                                        <li class="line-through text-gray-400">Rapport de performance détaillé</li>
+                                        <li class="line-through text-gray-400">Campagnes publicitaires ciblées</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-small btn-dark-gray blue-night hover:bg-indigo-600 hover:text-white transition duration-200" href="#">Choisir</a>
+                            </div>
                         </div>
-                        <!-- end pricing header -->
-                        <!-- start pricing body -->
-                        <div class="pricing-body padding-3-rem-tb">
-                            <ul class="list-style-03">
-                                <li class="border-color-medium-gray">Affiches </li>
-                                <li class="border-color-medium-gray">Gestion/Réseaux sociaux </li>
-                            </ul>
-                        </div>
-                        <!-- end pricing body -->
-                        <!-- start pricing footer -->
-                        <div class="pricing-footer">
-                            <a class="btn btn-fancy btn-small btn-dark-gray blue-night" href="#">Choisir</a>
-                        </div>
-                        <!-- end pricing footer -->
                     </div>
-                    <!-- end pricing table -->
-                </div>
-                <div class="col col-md-8 d-flex text-center md-margin-30px-bottom wow animate__fadeIn" data-wow-delay="0.2s">
-                    <!-- start pricing table -->
-                    <div class="pricing-table d-flex flex-column justify-content-center w-100 bg-purple border-radius-5px padding-60px-lr padding-70px-tb lg-padding-50px-lr xs-padding-50px-tb xs-padding-40px-lr">
-                        <!-- start pricing header -->
-                        <div class="pricing-header">
-                            <div class="text-white text-medium margin-10px-bottom d-block alt-font opacity-7">Le plus sollicité</div>
-                            <div class="alt-font text-white text-large font-weight-500 margin-3-rem-bottom text-uppercase">Pack Com Premium</div>
-                            <h2 class="alt-font font-weight-500 text-white letter-spacing-minus-2px no-margin-bottom">3000$</h2>
-                            <span class="text-uppercase text-white letter-spacing-1px font-weight-500 text-small">Par mois</span>
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-white border border-gray-200 border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="alt-font text-extra-dark-gray text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack Com Standard</div>
+                                    <h3 class="alt-font font-weight-500 text-purple text-5xl letter-spacing-minus-2px no-margin-bottom">1000$</h3>
+                                    <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-gray-700">
+                                        <li>Design de 15 Affiches/mois</li>
+                                        <li>1 Spot publicitaire simple</li>
+                                        <li>Gestion de 3 Réseaux sociaux</li>
+                                        <li class="line-through text-gray-400">Gestion du site / Blog</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-small btn-dark-gray blue-night hover:bg-indigo-600 hover:text-white transition duration-200" href="#">Choisir</a>
+                            </div>
                         </div>
-                        <!-- end pricing header -->
-                        <!-- start pricing body -->
-                        <div class="pricing-body padding-3-rem-tb">
-                            <ul class="list-style-03 text-white">
-                                <li class="border-color-dark-white-transparent">Affiches </li>
-                                <li class="border-color-dark-white-transparent">Spot publicitaire</li>
-                                <li class="border-color-dark-white-transparent">Gestion/Réseaux sociaux</li>
-                                <li class="border-color-dark-white-transparent">Gestion du site / Blog </li>
-                            </ul>
-                        </div>
-                        <!-- end pricing body -->
-                        <!-- start pricing footer -->
-                        <div class="pricing-footer">
-                            <a class="btn btn-fancy btn-medium btn-white" href="#">Choisir</a>
-                        </div>
-                        <!-- end pricing footer -->
                     </div>
-                    <!-- end pricing table -->
-                </div>
-                <div class="col col-md-8 d-flex text-center wow animate__fadeIn" data-wow-delay="0.4s">
-                    <!-- start pricing table -->
-                    <div class="pricing-table d-flex flex-column justify-content-center w-100 bg-white border-radius-5px padding-60px-lr padding-70px-tb
-                lg-padding-50px-lr xs-padding-50px-tb xs-padding-40px-lr">
-                        <!-- start pricing header -->
-                        <div class="pricing-header">
-                            <div class="alt-font text-extra-dark-gray text-large font-weight-500 margin-3-rem-bottom text-uppercase">Pack Com Standard</div>
-                            <h3 class="alt-font font-weight-500 text-purple letter-spacing-minus-2px no-margin-bottom">1000$</h3>
-                            <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-white border border-gray-200 border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="alt-font text-extra-dark-gray text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack Contenu Vidéo</div>
+                                    <h3 class="alt-font font-weight-500 text-purple text-5xl letter-spacing-minus-2px no-margin-bottom">1500$</h3>
+                                    <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-gray-700">
+                                        <li>Conception de 4 vidéos courtes (Reels/TikTok)</li>
+                                        <li>1 Vidéo Long format (YouTube/Explication)</li>
+                                        <li>Analyse de performance vidéo</li>
+                                        <li class="line-through text-gray-400">Gestion des publicités Google Ads</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-small btn-dark-gray blue-night hover:bg-indigo-600 hover:text-white transition duration-200" href="#">Choisir</a>
+                            </div>
                         </div>
-                        <!-- end pricing header -->
-                        <!-- start pricing body -->
-                        <div class="pricing-body padding-3-rem-tb">
-                            <ul class="list-style-03">
-                                <li class="border-color-medium-gray">Affiches </li>
-                                <li class="border-color-medium-gray">Spot publicitaire </li>
-                                <li class="border-color-medium-gray">Gestion/Réseaux sociaux </li>
-                            </ul>
-                        </div>
-                        <!-- end pricing body -->
-                        <!-- start pricing footer -->
-                        <div class="pricing-footer">
-                            <a class="btn btn-fancy btn-small btn-dark-gray blue-night" href="#">Choisir</a>
-                        </div>
-                        <!-- end pricing footer -->
                     </div>
-                    <!-- end pricing table -->
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-purple border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-2xl scale-100 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="text-white text-medium margin-10px-bottom d-block alt-font opacity-9 font-bold">⭐ Le plus sollicité</div>
+                                    <div class="alt-font text-white text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack Com Premium</div>
+                                    <h2 class="alt-font font-weight-500 text-white text-6xl letter-spacing-minus-2px no-margin-bottom">3000$</h2>
+                                    <span class="text-uppercase text-white letter-spacing-1px font-weight-500 text-small">Par mois</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-white">
+                                        <li class="border-color-dark-white-transparent">Toutes les fonctionnalités Standard</li>
+                                        <li class="border-color-dark-white-transparent">Campagnes publicitaires sur 2 plateformes</li>
+                                        <li class="border-color-dark-white-transparent">Gestion du site / Blog (maintenance incluse)</li>
+                                        <li class="border-color-dark-white-transparent">Rapports d'impact trimestriels personnalisés</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-medium bg-white text-purple hover:bg-gray-100 transition duration-200" href="#">Choisir</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-white border border-gray-200 border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="alt-font text-extra-dark-gray text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack SEO Pro</div>
+                                    <h3 class="alt-font font-weight-500 text-purple text-5xl letter-spacing-minus-2px no-margin-bottom">2500$</h3>
+                                    <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Par mois</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-gray-700">
+                                        <li>Audit SEO complet</li>
+                                        <li>Optimisation de 10 pages cibles/mois</li>
+                                        <li>Recherche de mots-clés et stratégie</li>
+                                        <li>Suivi de classement hebdomadaire</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-small btn-dark-gray blue-night hover:bg-indigo-600 hover:text-white transition duration-200" href="#">Choisir</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide h-auto p-2">
+                        <div class="pricing-table w-full h-full bg-white border border-gray-200 border-radius-5px padding-40px-lr padding-50px-tb lg-padding-30px-lr shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+                            <div>
+                                <div class="pricing-header">
+                                    <div class="alt-font text-extra-dark-gray text-xl font-weight-500 margin-2-rem-bottom text-uppercase">Pack Événementiel</div>
+                                    <h3 class="alt-font font-weight-500 text-purple text-5xl letter-spacing-minus-2px no-margin-bottom">Devis</h3>
+                                    <span class="text-uppercase text-extra-dark-gray letter-spacing-1px font-weight-500 text-small">Sur mesure</span>
+                                </div>
+                                <div class="pricing-body padding-3-rem-tb">
+                                    <ul class="list-style-03 space-y-2 text-base text-gray-700">
+                                        <li>Création de supports pour événement</li>
+                                        <li>Gestion des invitations/inscriptions</li>
+                                        <li>Campagne publicitaire ciblée</li>
+                                        <li>Rapport post-événement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pricing-footer mt-6">
+                                <a class="btn btn-fancy btn-small btn-dark-gray blue-night hover:bg-indigo-600 hover:text-white transition duration-200" href="#">Demander un devis</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+                <div class="swiper-pagination mt-8"></div>
+                <div class="swiper-button-next text-purple hover:text-indigo-600 transition-colors duration-200"></div>
+                <div class="swiper-button-prev text-purple hover:text-indigo-600 transition-colors duration-200"></div>
             </div>
         </div>
     </section>
@@ -572,7 +637,7 @@
                         @php
                             $i = 1
                         @endphp
-                        
+
                         @foreach($posts as $post)
                             <li class="grid-item wow animate__fadeIn" {{ $i !== 1 ? "data-wow-delay=0.". (($i*2) -2) ."s": '' }}>
                                 <div class="blog-post border-radius-5px bg-white box-shadow-medium tr-post">
@@ -599,7 +664,7 @@
                                 }
                             @endphp
                         @endforeach
-                        
+
                     </ul>
                 </div>
             </div>
@@ -631,5 +696,48 @@
             </div>
         </div>
     </section>
+
+
     <!-- end section -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.swiper-container', {
+                // Configuration de base du carrousel
+                loop: true,
+                spaceBetween: 20, // Espacement entre les slides (les packs)
+
+                // Ajout des flèches de navigation
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+
+                // Ajout de la pagination (les points sous le carrousel)
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+                // **Configuration de la Réactivité (Points d'arrêt)**
+                breakpoints: {
+                    // Mobile (moins de 768px)
+                    320: {
+                        slidesPerView: 1, // 1 pack par vue sur mobile
+                        slidesPerGroup: 1,
+                    },
+                    // Tablette (768px et plus)
+                    768: {
+                        slidesPerView: 2, // 2 packs par vue sur tablette
+                        slidesPerGroup: 2,
+                    },
+                    // Desktop (1024px et plus)
+                    1024: {
+                        slidesPerView: 3, // 3 packs par vue sur desktop
+                        slidesPerGroup: 3,
+                    },
+                }
+            });
+        });
+    </script>
 </x-layouts.main>

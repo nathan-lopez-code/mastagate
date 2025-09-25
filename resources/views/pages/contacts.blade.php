@@ -26,8 +26,8 @@
                                 <span class="text-extra-dark-gray text-extra-medium d-block alt-font font-weight-500">Adresse</span>
                                 <a href="#" class="alt-font text-decoration-none">
                                     <p class="contact-compact">
-                                    Avenue Nzadi 14C — Quartier Ngaba, Rond-point Ngaba, Kinshasa, RDC
-                                    <span class="ref">• Réf : Derrière la BCDC</span>
+                                        <strong> Kinshasa - RDC  </strong><br>Avenue Nzadi 14C — Quartier Ngaba, Rond-point Ngaba,<br>
+                                        <span class="ref">Réf : Derrière la BCDC</span>
                                     </p>
                                 </a>
                             </div>
@@ -67,20 +67,6 @@
                 </div>
                 <!-- end fancy text box item -->
                 <!-- start fancy text box item -->
-                {{--<div class="col col-sm-8">
-                    <div class="feature-box bg-white border-radius-6px overflow-hidden box-shadow-large box-shadow-extra-large-hover">
-                        <div class="feature-box-move-bottom-top padding-5-rem-lr padding-15px-tb lg-padding-2-half-rem-lr md-padding-4-half-rem-lr">
-                            <div class="feature-box-icon">
-                                <i class="line-icon-Map-Marker d-block icon-medium text-fast-blue margin-25px-bottom"></i>
-                            </div>
-                            <div class="feature-box-content last-paragraph-no-margin">
-                                <span class="text-extra-dark-gray text-extra-medium d-block alt-font font-weight-500">Notre adresse</span>
-                                <a href="#project" class="alt-font text-decoration-none section-link">Av. Fondation numéro 126 Q/Mama Mobutu C/ Mont-Ngafula</a>
-                            </div>
-                        </div>
-                        <div class="feature-box-overlay"></div>
-                    </div>
-                </div>--}}
                 <!-- end fancy text box item -->
             </div>
         </div>

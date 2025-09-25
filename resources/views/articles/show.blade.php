@@ -1,61 +1,65 @@
 <x-layouts.main title="{{ $article->title }} - MastaGate">
 
-    <section class="parallax bg-extra-dark-gray" data-parallax-background-ratio="0.5" style="background-image:url('{{ asset('images/articles/'. $article->image) }}');">
-        <div class="opacity-extra-medium bg-extra-dark-gray"></div>
-        <div class="container">
-            <div class="row align-items-stretch justify-content-center pt-20 pb-20 pt-lg-20 pb-lg-20 pt-md-20 pb-md-20 pt-sm-20 pb-sm-20">
-                <div class="col-12 col-xl-6 col-lg-7 col-md-8 page-title-extra-small text-center d-flex justify-content-center flex-column">
-                    <h1 class="alt-font text-white opacity-6 margin-10px-bottom">
-                        {{ $article->user->name }} le {{ $article->created_at->format('d M Y') }}
-                    </h1>
-                    <h2 class="text-white alt-font font-weight-500 letter-spacing-minus-1px line-height-50 sm-line-height-45 xs-line-height-30 no-margin-bottom">
-                        {{ $article->title }}
-                    </h2>
-                </div>
+    <!-- Section d'en-tête (Hero) avec image de couverture -->
+    <section class="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out transform scale-100"
+             style="background-image:url('{{ asset('images/articles/'. $article->image) }}');">
+        </div>
+        <div class="absolute inset-0 bg-black opacity-60"></div>
+        <div class="relative z-10 p-4">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-4">
+                    {{ $article->title }}
+                </h1>
+                <p class="text-white text-lg sm:text-xl font-light opacity-80">
+                    Par <span class="font-bold">{{ $article->user->name }}</span> le {{ $article->created_at->format('d M Y') }}
+                </p>
             </div>
         </div>
     </section>
 
-    <section id="article-content" class="bg-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-8 border-right-light-gray pr-5 lg:pr-10">
-                    <div class="mb-5">
-                        @if ($article->image)
-                            <img src="{{ asset('images/articles/'. $article->image) }}" class="img-fluid rounded-lg" alt="{{ $article->title }}">
-                        @endif
+    <!-- Contenu de l'article et barre latérale -->
+    <section class="bg-white py-12 md:py-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+                <!-- Contenu principal de l'article -->
+                <div class="lg:col-span-2">
+                    <div class="prose max-w-none">
+                        <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                            {!! $article->content !!}
+                        </p>
                     </div>
 
-                    <div class="content-trix text-extra-dark-gray alt-font text-justify">
-                        {!! $article->content !!}
-                    </div>
-
-                    <div class="text-center margin-4-rem-top">
-                        <a href="{{ route('blogs.index') }}" class="btn btn-medium btn-dark-gray btn-round-edge blue-night">
-                            <i class="feather icon-feather-arrow-left icon-very-small left-icon"></i> Retour au blog
+                    <!-- Bouton de retour -->
+                    <div class="mt-12 text-center">
+                        <a href="{{ route('blogs.index') }}" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out">
+                            <i class="fas fa-arrow-left mr-2"></i> Retour au blog
                         </a>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-4 d-none d-lg-block blog-sidebar-area pl-5 lg:pl-10">
-                    <aside class="blog-sidebar">
-                        <div class="widget">
-                            <h5 class="widget-title alt-font text-extra-dark-gray font-weight-600">Autres articles</h5>
-                            <div class="blog-widget-posts">
+                <!-- Barre latérale -->
+                <div class="lg:col-span-1">
+                    <aside class="space-y-12">
+                        <!-- Section des autres articles -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-gray-900">Autres articles</h3>
+                            <div class="space-y-6">
                                 @forelse ($otherArticles as $otherArticle)
-                                    <a href="{{ route('blogs.show', $otherArticle->id) }}">
-                                        <div class="blog-post-item border-radius-6px overflow-hidden shadow mb-4">
-                                            @if ($otherArticle->image)
-                                                <img src="{{ asset('images/articles/'. $otherArticle->image) }}" class="w-100 object-cover h-auto" alt="{{ $otherArticle->title }}">
-                                            @endif
-                                            <div class="card-body p-4 bg-light-gray">
-                                                <h6 class="alt-font font-weight-600 text-extra-dark-gray">{{ $otherArticle->title }}</h6>
-                                                <span class="d-block text-medium text-uppercase">{{ $otherArticle->created_at->format('d M Y') }}</span>
+                                    <a href="{{ route('blogs.show', ['slug' => $otherArticle->slug]) }}" class="group block bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+                                        @if ($otherArticle->image)
+                                            <div class="h-40 overflow-hidden">
+                                                <img src="{{ asset('images/articles/'. $otherArticle->image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="{{ $otherArticle->title }}">
                                             </div>
+                                        @endif
+                                        <div class="p-4">
+                                            <h4 class="text-lg font-semibold text-gray-900 leading-snug group-hover:text-indigo-600 transition-colors duration-300">{{ $otherArticle->title }}</h4>
+                                            <p class="text-sm text-gray-500 mt-1">{{ $otherArticle->created_at->format('d M Y') }}</p>
                                         </div>
                                     </a>
                                 @empty
-                                    <p class="alt-font text-medium">Aucun autre article disponible.</p>
+                                    <p class="text-base text-gray-500">Aucun autre article disponible.</p>
                                 @endforelse
                             </div>
                         </div>
@@ -65,36 +69,46 @@
         </div>
     </section>
 
+    <!-- Tailwind CSS et scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- CSS personnalisé pour le contenu de l'article (Prose) -->
     <style>
-        /* Styles pour que Trix Editor s'affiche correctement */
-        .content-trix figure {
-            margin: 1em 0;
-            text-align: center;
-        }
-        .content-trix figure img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .content-trix p {
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        .content-trix h1, .content-trix h2, .content-trix h3, .content-trix h4, .content-trix h5, .content-trix h6 {
+        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: #1a202c;
+            line-height: 1.25;
             margin-top: 2rem;
             margin-bottom: 1rem;
-            font-weight: 600;
         }
-        .content-trix blockquote {
-            border-left: 4px solid #0056b3;
-            padding-left: 1rem;
-            margin-left: 0;
+
+        .prose h1 { font-size: 2.5rem; }
+        .prose h2 { font-size: 2rem; }
+        .prose h3 { font-size: 1.75rem; }
+
+        .prose p {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #4a5568;
+            margin-bottom: 1.25rem;
+        }
+
+        .prose img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .prose blockquote {
+            border-left: 4px solid #4f46e5;
+            padding-left: 1.5rem;
             font-style: italic;
-            color: #555;
-        }
-        .border-right-light-gray {
-            border-right: 1px solid #e0e0e0;
+            color: #6b7280;
+            margin: 2rem 0;
         }
     </style>
 

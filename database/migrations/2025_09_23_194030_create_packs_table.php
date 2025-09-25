@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->float('price');
+            $table->float('price')->nullable();
             $table->string('advantages'); //  sous forme de liste
             $table->string('image')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('is_trending')->default(false);
+            $table->boolean('is_quotation')->default(false);
             $table->timestamps();
         });
     }

@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/pack/create', [PackController::class, 'create'])->name('packs.create');
         Route::post('/pack/', [PackController::class, 'store'])->name('packs.store');
+        Route::delete('/pack/{pack}', [PackController::class, 'destroy'])->name('packs.delete');
+        Route::get('/pack/edit/{pack}', [PackController::class, 'edit'])->name('packs.edit');
+        Route::put('/pack/update/{pack}', [PackController::class, 'update'])->name('packs.update');
     });
 });
 

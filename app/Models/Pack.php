@@ -13,7 +13,16 @@ class Pack extends Model
         'name',
         'description',
         'price',
+        'advantages',
         'image',
-        'advantages'
+        'active',
+        'is_trending',
+        'is_quotation',
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
+        'is_trending' => 'boolean',
+        'is_quotation' => 'boolean',
     ];
 }

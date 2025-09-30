@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Pack;
+use App\Models\Traffic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -90,6 +92,11 @@ class ArticleController extends Controller
         return redirect()->route('dashboard')->with('success', 'Article créé avec succès !');
     }
 
+
+    public function listAdmin(Request $request){
+        $articles = Article::all();
+        return view('articles.list_admin', compact('articles'));
+    }
     /**
      * Display the specified resource.
      */
@@ -171,7 +178,48 @@ class ArticleController extends Controller
         $articles = Article::all();
         $packs = Pack::all();
 
-        return view('dashboard', compact('articles', 'packs'));
+        // Mois courant
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
+
+        // Total des visites ce mois
+        $totalVisitsCurrentMonth = Traffic::where('source', 'site')
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->sum('visits');
+
+        // Mois dernier
+        $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $endOfLastMonth   = Carbon::now()->subMonth()->endOfMonth();
+
+        $totalVisitsLastMonth = Traffic::where('source', 'site')
+            ->whereBetween('date', [$startOfLastMonth, $endOfLastMonth])
+            ->sum('visits');
+
+        // Trafic sur les 7 derniers jours
+        $days = collect(range(6, 0, -1))->map(function($i) {
+            return Carbon::today()->subDays($i)->format('d M');
+        });
+
+        $trafficData = Traffic::where('source', 'site')
+            ->whereBetween('date', [Carbon::today()->subDays(6), Carbon::today()])
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $trafficLast7Days = collect();
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i)->format('Y-m-d');
+            $trafficLast7Days[] = $trafficData[$date]->visits ?? 0;
+        }
+
+        return view('dashboard', compact(
+            'articles',
+            'packs',
+            'days',
+            'trafficLast7Days',
+            'totalVisitsCurrentMonth',
+            'totalVisitsLastMonth'
+        ));
     }
 
     /**

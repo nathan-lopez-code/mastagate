@@ -38,7 +38,7 @@
                         <div class="mb-6">
                             <label for="title" class="sr-only">Titre de l'article</label>
                             <input type="text" value="{{ $article->title }}" class="block w-full text-4xl font-extrabold text-gray-900 dark:text-gray-100 bg-transparent border-0 focus:ring-0 px-0 mb-2"
-                                   id="title" name="title" placeholder="Votre titre d'article ici..." required>
+                                   id="title" name="title" placeholder="Votre titre d'article ici..." required style="width: 100%">
                             @error('title')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
